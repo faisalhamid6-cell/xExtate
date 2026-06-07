@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "title": "How to create and send an invoice in Billy",
+    "body": "To create an invoice in Billy, click 'New Invoice', pick a customer, add line items, then press Send. Billy emails the invoice as a PDF and tracks when the customer opens it.",
+    "tags": ["invoice", "create", "send", "billing"],
+    "source": "handbook",
+    "created_at": "2026-02-10",
+    "confidence": 1.0,
+    "status": "active"
+  },
+  {
+    "id": 2,
+    "title": "Which payment methods does Billy support",
+    "body": "Billy supports credit cards, debit cards, ACH bank transfers, and PayPal. Apple Pay and Google Pay are supported on mobile. Crypto is not supported.",
+    "tags": ["payments", "methods", "cards", "ach", "paypal"],
+    "source": "handbook",
+    "created_at": "2026-03-01",
+    "confidence": 1.0,
+    "status": "active"
+  },
+  {
+    "id": 3,
+    "title": "How to issue a refund to a customer in Billy",
+    "body": "Open the paid invoice, click 'Refund', choose full or partial, and confirm. Billy returns the money to the original payment method, usually within 5 business days.",
+    "tags": ["refund", "money", "customer", "invoice"],
+    "source": "handbook",
+    "created_at": "2026-03-15",
+    "confidence": 1.0,
+    "status": "active"
+  },
+  {
+    "id": 4,
+    "title": "Issuing a refund to a customer in Billy",
+    "body": "To refund a customer, open the paid invoice, click 'Refund', pick full or partial, and confirm. The money goes back to the original payment method, normally within 5 business days.",
+    "tags": ["refund", "money", "customer", "invoice"],
+    "source": "handbook-old",
+    "created_at": "2026-04-02",
+    "confidence": 1.0,
+    "status": "active"
+  },
+  {
+    "id": 5,
+    "title": "Billy pricing plans and monthly cost",
+    "body": "Billy has three plans: Starter at $9 per month, Growth at $29 per month, and Scale at $99 per month. Annual billing gives two months free.",
+    "tags": ["pricing", "plans", "cost", "monthly"],
+    "source": "handbook",
+    "created_at": "2026-03-20",
+    "confidence": 1.0,
+    "status": "active"
+  },
+  {
+    "id": 6,
+    "title": "Old Billy mobile app login instructions (legacy)",
+    "body": "On the old Billy mobile app, log in with your username and a 4-digit PIN. This legacy app was retired and these steps no longer apply.",
+    "tags": ["mobile", "login", "legacy", "app"],
+    "source": "handbook-legacy",
+    "created_at": "2024-06-01",
+    "confidence": 0.6,
+    "status": "active"
+  }
+]
