@@ -19,6 +19,7 @@ with `--input path/to/your_feedback.csv`.
 
 import argparse
 import csv
+import json
 import os
 import sys
 
@@ -102,10 +103,14 @@ def main() -> None:
     roadmap_path = os.path.join(OUTPUT_DIR, "roadmap.md")
     prd_path = os.path.join(OUTPUT_DIR, "prd.md")
     slack_path = os.path.join(OUTPUT_DIR, "slack_update.md")
+    gitlab_md_path = os.path.join(OUTPUT_DIR, "gitlab_issues.md")
+    gitlab_json_path = os.path.join(OUTPUT_DIR, "gitlab_issues.json")
 
     save(roadmap_path, result["roadmap"])
     save(prd_path, result["prd"])
     save(slack_path, result["slack"])
+    save(gitlab_md_path, result["gitlab_md"])
+    save(gitlab_json_path, json.dumps(result["gitlab_issues"], indent=2))
 
     # --- Final summary ---------------------------------------------------
     ranked = result["ranked"]
@@ -118,11 +123,14 @@ def main() -> None:
     print(f"🏆 Top priority : {top.theme.name} (RICE {top.score:,.0f})")
     print(f"🏃 This sprint  : {', '.join(r.theme.name for r in sprint)}")
     print(f"📊 Themes ranked: {len(ranked)}")
+    print(f"🦊 GitLab-ready : {len(result['gitlab_issues'])} issue(s) queued for the sprint")
     print()
     print("📁 Files written:")
     print(f"   • {roadmap_path}")
     print(f"   • {prd_path}")
     print(f"   • {slack_path}")
+    print(f"   • {gitlab_md_path}")
+    print(f"   • {gitlab_json_path}")
     print("=" * 64)
 
 

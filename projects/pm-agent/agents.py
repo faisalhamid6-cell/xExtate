@@ -400,6 +400,62 @@ We just turned *{total_feedback} pieces of user feedback* into a plan. :tada:
 Full roadmap + PRD attached. Feedback welcome before we kick off! :pray:"""
         return update
 
+    def build_gitlab_issues(self, ranked_scores: list) -> list:
+        """
+        Turn the "This Sprint" themes into GitLab-ready issue payloads.
+
+        This is the magic final step that CLOSES THE LOOP: the agent doesn't
+        just recommend work, it produces the exact engineering tickets. In the
+        live hackathon build, this same list is what we hand to GitLab's MCP
+        server to actually CREATE the issues in your project — automatically.
+
+        TODO (GitLab MCP mode): send each dict to the GitLab MCP "create issue"
+        tool. The fields below map directly onto real GitLab issue fields.
+        """
+        milestone = f"Sprint — week of {date.today().isoformat()}"
+        issues = []
+        for rice in ranked_scores:
+            if not rice.this_sprint:
+                continue
+            theme = rice.theme
+            quotes = "\n".join(f"> {item.text}  \n> — _{item.source}_"
+                               for item in theme.items[:3])
+            description = (
+                f"**Why this matters:** {theme.description}\n\n"
+                f"Raised in **{theme.count} pieces of user feedback**, representing an "
+                f"estimated **{rice.reach:,} users**. RICE score **{rice.score:,.0f}**.\n\n"
+                f"**What users said:**\n{quotes}\n\n"
+                f"**Definition of done:** the pain point above is resolved and "
+                f"verified with the users who reported it."
+            )
+            issues.append({
+                "title": f"[Sprint] {theme.name}",
+                "description": description,
+                "labels": ["from-user-feedback", "pm-agent", "sprint"],
+                "weight": int(round(rice.effort)),   # GitLab "weight" == effort
+                "milestone": milestone,
+            })
+        return issues
+
+    def render_gitlab_issues_md(self, issues: list) -> str:
+        """A human-readable preview of the GitLab issues we will create."""
+        lines = ["# 🦊 GitLab Issues — ready to create", ""]
+        lines.append(f"_Auto-prepared by the PM Agent crew on {date.today().isoformat()}._")
+        lines.append("")
+        lines.append(f"These **{len(issues)}** issues map to the *This Sprint* themes. "
+                     "In the live build, the agent creates them directly in GitLab "
+                     "via the GitLab MCP server — no copy-paste needed.")
+        lines.append("")
+        for i, issue in enumerate(issues, start=1):
+            lines.append(f"## {i}. {issue['title']}")
+            lines.append(f"- **Labels:** {', '.join(issue['labels'])}")
+            lines.append(f"- **Weight (effort):** {issue['weight']} person-weeks")
+            lines.append(f"- **Milestone:** {issue['milestone']}")
+            lines.append("")
+            lines.append(issue["description"])
+            lines.append("")
+        return "\n".join(lines).rstrip() + "\n"
+
 
 # ---------------------------------------------------------------------------
 # 4) LeadPMAgent  🧑‍💼
@@ -448,11 +504,19 @@ class LeadPMAgent:
         roadmap = self.writer.write_roadmap(ranked)
         prd = self.writer.write_prd(top)
         slack = self.writer.write_slack_update(ranked, total)
-        print("   → Documents drafted.\n")
+        gitlab_issues = self.writer.build_gitlab_issues(ranked)
+        gitlab_md = self.writer.render_gitlab_issues_md(gitlab_issues)
+        print("   → Documents drafted.")
+
+        # --- Step 4: Close the loop -> GitLab tickets -----------------------
+        print(f"🦊 Lead: {len(gitlab_issues)} GitLab issue(s) queued for the sprint "
+              f"(ready to auto-create via GitLab MCP).\n")
 
         return {
             "ranked": ranked,
             "roadmap": roadmap,
             "prd": prd,
             "slack": slack,
+            "gitlab_issues": gitlab_issues,
+            "gitlab_md": gitlab_md,
         }
