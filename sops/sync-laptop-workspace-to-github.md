@@ -19,11 +19,15 @@ Keep the files on my laptop (where Claude Co-Work writes) and the files in the G
 2. **Clone** the `xExtate` repo to your laptop: *File → Clone repository →* pick
    `faisalhamid6-cell/xExtate` → choose where to save it → **Clone**.
 3. You now have an `xExtate` folder on your laptop with a `workspace/` subfolder inside it.
-4. **Point Co-Work at that `workspace/` folder** (if Co-Work lets you choose its folder),
+4. **Switch to the working branch:** in GitHub Desktop, click the **"Current Branch"**
+   dropdown at the top and choose **`claude/pensive-cori-ywRyY`** (this is the branch Claude
+   Code is working on, so both sides share the exact same files). Later, once we merge this
+   into `main`, we'll both switch to `main` as the permanent shared brain.
+5. **Point Co-Work at that `workspace/` folder** (if Co-Work lets you choose its folder),
    OR copy your existing workspace files into `xExtate/workspace/`.
-5. In GitHub Desktop you'll see the new files listed. Type a short summary (e.g. "Add my
-   277 workflows"), click **Commit to main**, then click **Push origin**. Done — they're on
-   GitHub, and Claude Code can now read them.
+6. In GitHub Desktop you'll see the new files listed. Type a short summary (e.g. "Add my
+   277 workflows"), click **Commit**, then click **Push origin**. Done — they're on GitHub,
+   and Claude Code can now read them.
 
 ## Everyday use
 - **Before working:** open GitHub Desktop → click **Fetch/Pull** (gets Claude Code's latest).
