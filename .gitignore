@@ -1,3 +1,6 @@
 # Python cache files (auto-generated, not needed in the repo)
 __pycache__/
 *.pyc
+
+# Auto-sync activity log (changes every run; should not be synced)
+workspace/sync-log.txt
