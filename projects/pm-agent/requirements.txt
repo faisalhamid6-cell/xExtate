@@ -1,0 +1,9 @@
+# Requirements for the AI Product Manager Agent
+# ------------------------------------------------
+# DEMO MODE NEEDS NOTHING HERE. The default `python3 projects/pm-agent/run.py`
+# runs entirely on the Python 3.11 standard library — no installs, no API key.
+#
+# The single package below is ONLY needed if you want to switch on live
+# "Gemini mode" (set a GEMINI_API_KEY environment variable). To enable it:
+#     pip install -r requirements.txt
+google-generativeai

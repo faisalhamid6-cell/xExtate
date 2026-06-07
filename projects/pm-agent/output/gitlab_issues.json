@@ -1,0 +1,24 @@
+[
+  {
+    "title": "[Sprint] Slow Invoice Loading",
+    "description": "**Why this matters:** Users say the invoice list/dashboard is slow to load.\n\nRaised in **7 pieces of user feedback**, representing an estimated **280 users**. RICE score **420**.\n\n**What users said:**\n> Loading my invoices takes forever. The dashboard spins for like 20 seconds every time I open it.  \n> \u2014 _support_ticket_\n> App is decent but SO slow when I have a lot of invoices. Please optimize the loading speed.  \n> \u2014 _app_review_\n> Anyone else seeing the invoice list take ages to load? It's painful with 200+ invoices.  \n> \u2014 _slack_\n\n**Definition of done:** the pain point above is resolved and verified with the users who reported it.",
+    "labels": [
+      "from-user-feedback",
+      "pm-agent",
+      "sprint"
+    ],
+    "weight": 2,
+    "milestone": "Sprint \u2014 week of 2026-06-07"
+  },
+  {
+    "title": "[Sprint] Recurring Invoices",
+    "description": "**Why this matters:** Users want invoices that repeat/auto-send on a schedule.\n\nRaised in **6 pieces of user feedback**, representing an estimated **240 users**. RICE score **180**.\n\n**What users said:**\n> Why can't I set up a recurring invoice? I bill the same clients every month and have to redo it manually each time.  \n> \u2014 _support_ticket_\n> Needs recurring/repeating invoices badly. I send identical monthly bills and Billy makes me start over every time.  \n> \u2014 _app_review_\n> Is there a way to schedule an invoice to auto-send every month? Recurring billing would save me hours.  \n> \u2014 _slack_\n\n**Definition of done:** the pain point above is resolved and verified with the users who reported it.",
+    "labels": [
+      "from-user-feedback",
+      "pm-agent",
+      "sprint"
+    ],
+    "weight": 4,
+    "milestone": "Sprint \u2014 week of 2026-06-07"
+  }
+]
