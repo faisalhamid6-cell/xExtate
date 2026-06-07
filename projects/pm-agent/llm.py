@@ -1,0 +1,88 @@
+"""
+llm.py — A tiny "brain" abstraction for the PM Agent.
+
+Why this file exists
+--------------------
+We want ONE simple way to ask an AI a question, no matter what is running
+underneath. So we define a small base class `LLMClient` with a single method:
+`complete(prompt) -> str`.
+
+There are two versions:
+  1. DemoClient  — needs NO setup, NO internet, NO API key. It returns empty
+     text on purpose. In demo mode the agents do their own smart heuristics,
+     so the "AI brain" is optional.
+  2. GeminiClient — talks to Google's Gemini model. It only runs if you have a
+     GEMINI_API_KEY. We import the Google library LAZILY (inside the method)
+     so that a missing package can NEVER break demo mode.
+
+The `get_client()` factory at the bottom decides which one to use.
+"""
+
+import os
+
+
+class LLMClient:
+    """Base class. Every client must know how to turn a prompt into text."""
+
+    def complete(self, prompt: str) -> str:
+        """Take a text prompt, return the model's text answer."""
+        raise NotImplementedError("Subclasses must implement complete().")
+
+
+class DemoClient(LLMClient):
+    """
+    The zero-setup client used for the live demo.
+
+    It deliberately returns an empty string. The agents detect this and fall
+    back to their built-in heuristics (keyword clustering, RICE math, and
+    templates). This is what makes demo mode work with ZERO installs.
+    """
+
+    def complete(self, prompt: str) -> str:
+        # No real AI call. Agents will use their own logic instead.
+        return ""
+
+
+class GeminiClient(LLMClient):
+    """
+    The "live AI" client, powered by Google Gemini.
+
+    This is the future upgrade path. It is fully written but only used when a
+    GEMINI_API_KEY environment variable is present. The Google library is
+    imported INSIDE complete() so that demo mode never depends on it.
+    """
+
+    def __init__(self, api_key: str, model_name: str = "gemini-2.0-flash"):
+        self.api_key = api_key
+        self.model_name = model_name
+
+    def complete(self, prompt: str) -> str:
+        # LAZY IMPORT: only loaded when we actually call Gemini. This means the
+        # `google-generativeai` package is NOT required for demo mode.
+        import google.generativeai as genai
+
+        genai.configure(api_key=self.api_key)
+        model = genai.GenerativeModel(self.model_name)
+        response = model.generate_content(prompt)
+        # `.text` holds the model's written answer.
+        return response.text or ""
+
+
+def get_client() -> LLMClient:
+    """
+    Decide which brain to use.
+
+    - If GEMINI_API_KEY is set in the environment, use real Gemini.
+    - Otherwise, fall back to the zero-setup DemoClient.
+
+    We print a friendly line so the person watching the demo knows which mode
+    is running.
+    """
+    api_key = os.environ.get("GEMINI_API_KEY", "").strip()
+
+    if api_key:
+        print("🤖 Using Gemini (live AI mode)")
+        return GeminiClient(api_key=api_key)
+
+    print("🧪 Running in DEMO mode (no API key needed)")
+    return DemoClient()
