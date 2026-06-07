@@ -47,3 +47,31 @@ schtasks /Delete /TN "ClaudeWorkspaceSync" /F
   the same file at the same time. Nothing is lost — just tell Claude *"resolve the workspace
   conflict"* and it'll sort it out.
 - 🔒 Never put passwords or API keys in the workspace folder — it's public on GitHub.
+
+## Two repos? (public + private) — here's the clean setup 🗂️
+
+If you keep a **public** repo (`xExtate`, for the command center + hackathon) and a
+**private** repo (`gladiuxtech-cowork-os`, for IP / business plans / the SaaS), set up
+auto-sync on **each** — they never collide because each is its own brain:
+
+| Repo | Who writes here | Branch | Which script |
+|---|---|---|---|
+| `xExtate` (public) | Claude Code | `claude/pensive-cori-ywRyY` (later `main`) | handled in the cloud by Claude Code |
+| `gladiuxtech-cowork-os` (private) | Claude Co-Work | `main` | **`sync-any-repo.ps1`** (this folder) |
+
+**To auto-sync the private repo:**
+1. Clone `gladiuxtech-cowork-os` with GitHub Desktop.
+2. Copy **`sync-any-repo.ps1`** into the **root** of that cloned folder.
+3. Add a line `sync-log.txt` to that repo's `.gitignore` (so the log doesn't sync).
+4. Point Co-Work to write into that folder.
+5. Schedule it (note the **different task name** so it doesn't clash with the first one):
+
+   ```powershell
+   schtasks /Create /SC MINUTE /MO 5 /TN "GladiuxCoworkSync" `
+     /TR "powershell -NoProfile -ExecutionPolicy Bypass -File \"PASTE_PATH_HERE\"" /F
+   ```
+
+> ℹ️ **Heads-up:** Claude Code (in this xExtate session) **cannot read your private repo.**
+> When you want Claude to work on the private/SaaS side, start a **new Claude Code session
+> and select `gladiuxtech-cowork-os`** as its repository.
+
