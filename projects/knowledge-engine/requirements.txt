@@ -1,0 +1,17 @@
+# ============================================================================
+# Mnemo requirements
+# ============================================================================
+# IMPORTANT: DEMO MODE NEEDS NOTHING HERE.
+# The demo (`python3 projects/knowledge-engine/run.py`) runs on the Python 3.11
+# standard library only — no installs, no API keys, no internet.
+#
+# The two packages below are ONLY needed if you switch on live mode later
+# (real Gemini answers + a real MongoDB Atlas vector database). Install them
+# with:  pip install -r requirements.txt
+# ============================================================================
+
+# ONLY for live mode — Google Gemini answers and embeddings.
+google-generativeai
+
+# ONLY for live mode — MongoDB Atlas vector search storage.
+pymongo
